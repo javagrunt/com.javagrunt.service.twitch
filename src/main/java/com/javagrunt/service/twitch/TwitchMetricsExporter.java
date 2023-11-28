@@ -21,7 +21,6 @@ public class TwitchMetricsExporter {
     private final String broadcasterId;
     private final String channel;
 
-
     public TwitchMetricsExporter(TwitchService twitchService, MeterRegistry meterRegistry,
                                  @Value("${twitch.channel}") String channel) {
         this.channel = channel;
@@ -55,9 +54,7 @@ public class TwitchMetricsExporter {
             StreamList resultList = twitchClient
                     .getHelix()
                     .getStreams(authToken, null, null, null, null, null, null, Collections.singletonList(channel)).execute();
-            Stream stream = resultList.getStreams().get(0);
-            logger.info("Stream: {}", stream);
-            return stream;
+            return resultList.getStreams().isEmpty() ? null : resultList.getStreams().get(0);
         } catch (Exception e) {
             logger.error("TwitchMetricsExporter.getStream:", e);
         }
