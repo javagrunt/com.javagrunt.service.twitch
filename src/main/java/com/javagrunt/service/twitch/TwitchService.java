@@ -21,13 +21,16 @@ public class TwitchService {
     Logger logger = LoggerFactory.getLogger(TwitchService.class);
     private final TwitchClient client;
     private final OAuth2Credential oAuth2Credential;
+    private final String accessToken;
 
     private final String channel;
 
     public TwitchService(@Value("${twitch.client-id}") String clientId,
                          @Value("${twitch.client-secret}") String clientSecret,
                          @Value("${twitch.channel}") String channel,
-                         @Value("${twitch.client-redirect-url}") String clientRedirectUrl) {
+                         @Value("${twitch.client-redirect-url}") String clientRedirectUrl,
+                         @Value("${twitch.token}") String accessToken) {
+        this.accessToken = accessToken;
         this.channel = channel;
         CredentialManager credentialManager = CredentialManagerBuilder.builder().build();
         TwitchIdentityProvider identityProvider = new TwitchIdentityProvider(clientId, clientSecret, clientRedirectUrl);
@@ -46,7 +49,7 @@ public class TwitchService {
     }
 
     public String getAccessToken() {
-        return oAuth2Credential.getAccessToken();
+        return accessToken;
     }
 
     public String getBroadcasterId() {
@@ -56,5 +59,7 @@ public class TwitchService {
         }
         return "";
     }
+
+
 
 }

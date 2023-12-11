@@ -10,11 +10,11 @@ import org.testcontainers.utility.DockerImageName;
 @TestConfiguration(proxyBeanMethods = false)
 public class TestApplication {
 
-//    @Bean
-//    @ServiceConnection(name = "openzipkin/zipkin")
-//    GenericContainer<?> zipkinContainer() {
-//        return new GenericContainer<>(DockerImageName.parse("openzipkin/zipkin:latest")).withExposedPorts(9411);
-//    }
+    @Bean
+    @ServiceConnection(name = "openzipkin/zipkin")
+    GenericContainer<?> zipkinContainer() {
+        return new GenericContainer<>(DockerImageName.parse("openzipkin/zipkin:latest")).withExposedPorts(9411);
+    }
 
     public static void main(String[] args) {
         SpringApplication.from(Application::main).with(TestApplication.class).run(args);
